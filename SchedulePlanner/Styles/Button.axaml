@@ -1,0 +1,94 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+    
+    <Style Selector="Button">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{DynamicResource Primary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Accent}"/>
+    </Style>
+    
+    <Style Selector="ToggleButton">
+        <Setter Property="Cursor" Value="Hand"/> 
+    </Style>
+    
+    <Style Selector="ToggleButton.Transparent">
+        <Setter Property="Background" Value="Transparent"/> 
+        <Setter Property="BorderThickness" Value="0"/> 
+    </Style>
+    
+    <Style Selector="ToggleButton.Transparent:checked  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/> 
+    </Style>
+    
+    <Style Selector="ToggleButton.Transparent:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/> 
+    </Style>
+    
+    <Style Selector="Button.Outlined">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource Popover-Foreground}"/>
+    </Style>
+    
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource Secondary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Primary}"/>
+    </Style>
+    
+    <Style Selector="Button.Outlined:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource Secondary}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+    
+    <Style Selector="RadioButton">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+                        Height="{TemplateBinding Height}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Width="{TemplateBinding Width}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Foreground="{TemplateBinding Foreground}"
+                            Padding="{TemplateBinding Padding}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            RecognizesAccessKey="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style Selector="RadioButton:checked">
+        <Setter Property="Background" Value="{DynamicResource AccentForeground}"/>
+    </Style>
+    <Style Selector="RadioButton:checked > PathIcon">
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+    
+    
+    
+
+    <!-- Add Styles Here -->
+</Styles>

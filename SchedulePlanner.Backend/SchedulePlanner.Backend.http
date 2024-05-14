@@ -1,0 +1,6 @@
+@SchedulePlanner.Backend_HostAddress = http://localhost:5254
+
+GET {{SchedulePlanner.Backend_HostAddress}}/auth/
+Accept: application/json
+
+###

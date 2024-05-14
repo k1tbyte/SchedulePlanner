@@ -1,0 +1,32 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+    <Styles.Resources>
+        <SolidColorBrush x:Key="Background" Color="#09090b"/>
+        <SolidColorBrush x:Key="Foreground" Color="#fafafa"/>
+        <SolidColorBrush x:Key="Card" Color="#09090b"/>
+        <SolidColorBrush x:Key="CardForeground" Color="#fafafa"/>
+        <SolidColorBrush x:Key="Popover" Color="#090909"/>
+        <SolidColorBrush x:Key="Popover-Foreground" Color="#FAFAFA"/>
+        <SolidColorBrush x:Key="Primary" Color="#FAFAFA"/>
+        <SolidColorBrush x:Key="Primary-Foreground" Color="#181818"/>
+        <SolidColorBrush x:Key="Secondary" Color="#27272a"/>
+        <SolidColorBrush x:Key="SecondaryForeground" Color="#FAFAFA"/>
+        <SolidColorBrush x:Key="Muted" Color="#272727"/>
+        <SolidColorBrush x:Key="MutedForeground" Color="#a1a1a1"/>
+        <SolidColorBrush x:Key="Accent" Color="#272727"/>
+        <SolidColorBrush x:Key="AccentForeground" Color="#FAFAFA"/>
+        <SolidColorBrush x:Key="Destructive" Color="#1d1d1d"/>
+        <SolidColorBrush x:Key="DestructiveForeground" Color="#FAFAFA"/>
+        <SolidColorBrush x:Key="Border" Color="#272727"/>
+        <SolidColorBrush x:Key="Input" Color="#272727"/>
+        <SolidColorBrush x:Key="Ring" Color="#d4d4d4"/>
+        <Color x:Key="Shadow" >#FAFAFA</Color>
+    </Styles.Resources>
+</Styles>

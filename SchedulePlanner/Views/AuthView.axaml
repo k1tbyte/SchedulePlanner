@@ -1,0 +1,77 @@
+<StackPanel xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SchedulePlanner.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SchedulePlanner.Views.AuthView"
+             VerticalAlignment="Center"
+             HorizontalAlignment="Center"
+             x:DataType="viewModels:AuthViewModel">
+    <Design.DataContext>
+        <viewModels:AuthViewModel/>
+    </Design.DataContext>
+
+    <Border BorderThickness="0 0 0 1"
+            BorderBrush="{DynamicResource Border}"
+            Margin="0 0 0 20">
+                <TextBlock Text="Schedule planner" HorizontalAlignment="Center"
+                           FontSize="30" FontWeight="Bold"
+                           Margin="0 0 0 20"/>
+    </Border>
+            
+                
+    <TabControl>
+
+        <TabItem Header="Login" Margin="0 0 5 0" Padding="55 7">
+            <Border CornerRadius="5" Padding="20"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource Border}">
+                <StackPanel Width="300">
+                    <TextBlock FontSize="20"
+                               FontWeight="Bold"
+                               LetterSpacing="1"
+                               Margin="0 0 0 20">
+                        Login
+                    </TextBlock>
+                    <TextBlock Margin="3 0 0 3">E-Mail</TextBlock>
+                    <TextBox Watermark="yourmail@email.com" VerticalAlignment="Top" Margin="0 0 0 10" />
+                    <TextBlock Margin="3 5 0 3">Password</TextBlock>
+                    <TextBox Classes="revealPasswordButton" PasswordChar="•" Margin="0 0 0 10"
+                             RevealPassword="False" Watermark="Your password" VerticalAlignment="Top" />
+                    <Button Margin="0 20 0 0"
+                            Command="{Binding LoginCommand}">
+                        Sign in with Email
+                    </Button>
+                </StackPanel>
+            </Border>
+        </TabItem>
+        <TabItem Header="Register" Margin="5 0 0 0" Padding="55 7">
+            <Border CornerRadius="5" Padding="20"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource Border}">
+                <StackPanel Width="300">
+                    <TextBlock FontSize="20"
+                               FontWeight="Bold"
+                               LetterSpacing="1"
+                               Margin="0 0 0 20">
+                        Registration
+                    </TextBlock>
+                    <TextBlock Margin="3 0 0 3">E-Mail</TextBlock>
+                    <TextBox Watermark="yourmail@email.com" VerticalAlignment="Top" Margin="0 0 0 10" />
+                    <TextBlock Margin="3 5 0 3">Password</TextBlock>
+                    <TextBox Classes="revealPasswordButton" PasswordChar="•" Margin="0 0 0 10"
+                             Watermark="Strong password" VerticalAlignment="Top" />
+                    <TextBlock Margin="3 5 0 3">Confirm password</TextBlock>
+                    <TextBox Classes="revealPasswordButton" PasswordChar="•" Margin="0 0 0 10"
+                             Watermark="Confirm password" VerticalAlignment="Top" />
+                    <Button Margin="0 20 0 0"
+                            Command="{Binding RegisterCommand}">
+                        Confirm
+                    </Button>
+                </StackPanel>
+            </Border>
+        </TabItem>
+    </TabControl>
+    
+</StackPanel>

@@ -1,0 +1,23 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SchedulePlanner.App"
+             xmlns:local="using:SchedulePlanner"
+             xmlns:converters="clr-namespace:SchedulePlanner.Converters"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             
+    
+  
+    <Application.Styles>
+        <SimpleTheme />
+        <StyleInclude Source="avares://SchedulePlanner/Assets/ColorScheme.axaml"/>
+        <StyleInclude Source="avares://SchedulePlanner/Assets/Icons.axaml"/>
+        
+        <StyleInclude Source="avares://SchedulePlanner/Styles/Input.axaml"/>
+        <StyleInclude Source="avares://SchedulePlanner/Styles/Button.axaml"/>
+    </Application.Styles>
+             <Application.Resources>
+                 <converters:ToBooleanConverter x:Key="ToBooleanConverter"/>
+                 <converters:InvertedToBooleanConverter x:Key="InvertedToBooleanConverter"/>
+             </Application.Resources>
+</Application>
