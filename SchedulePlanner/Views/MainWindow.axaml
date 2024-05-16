@@ -3,6 +3,7 @@
         xmlns:vm="using:SchedulePlanner.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:SchedulePlanner.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SchedulePlanner.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -28,6 +29,7 @@
                      Height="10" Width="350"
                      HorizontalAlignment="Center" IsIndeterminate="True" />
         <ContentControl Content="{Binding CurrentView, Mode=TwoWay}"/>
+        <controls:ModalWindow x:Name="Modal"/>
     </Grid>
   
     

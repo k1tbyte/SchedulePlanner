@@ -1,0 +1,49 @@
+<Grid xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SchedulePlanner.Controls.ModalWindow" IsVisible="False">
+    <Border x:Name="Splash" Background="Black"
+            Opacity="0.6" PointerPressed="OnBorderPressed">
+        <Border.Transitions>
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+            </Transitions>
+        </Border.Transitions>
+    </Border>
+
+    
+    <Border Background="{DynamicResource Card}" d:Margin="0"
+            BorderBrush="{DynamicResource Border}" 
+            BorderThickness="0.5"
+            Padding="20"
+            Margin="0 40 0 40" x:Name="PopupPresenter" 
+            MinWidth="300"
+            VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="5">
+        <Border.Effect>
+            <DropShadowEffect OffsetX="0" OffsetY="0"
+                              Color="White"
+                              Opacity="0.3"
+                              BlurRadius="3"/>
+        </Border.Effect>
+        <Grid>
+            <Button Theme="{StaticResource Transparent}"  Click="OnCloseClick"
+                    VerticalAlignment="Top" HorizontalAlignment="Right" 
+                    Margin="0 0 0 0" Width="9.5" Height="9.5">
+                <PathIcon Data="{StaticResource Close}" Foreground="{DynamicResource Foreground}" />
+            </Button>
+            
+            <TextBlock HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Text="Edit profile"
+                       TextAlignment="Center"
+                       Foreground="{DynamicResource Foreground}"
+                       FontWeight="SemiBold" LetterSpacing="1" 
+                       FontSize="18" x:Name="Title"/>
+            
+            <ContentPresenter x:Name="Presenter" 
+                               Margin="0 30 0 0"/>
+        </Grid>
+    </Border>
+</Grid>

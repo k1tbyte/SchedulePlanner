@@ -30,7 +30,7 @@
                 BorderBrush="{DynamicResource Border}">
             <StackPanel>
                 <TextBox Watermark="Username" VerticalAlignment="Top" Margin="0 0 0 10" />
-                <TextBox  Classes="revealPasswordButton" Text="asdasd" PasswordChar="•" Margin="0 0 0 10"
+                <TextBox  Classes="revealPasswordButton"  PasswordChar="•" Margin="0 0 0 10"
                           RevealPassword="False" Watermark="Password" VerticalAlignment="Top">
                         
                 </TextBox>

@@ -18,8 +18,8 @@ public class MainWindowViewModel : ReactiveObject
 
     private async Task Prepare()
     {
-        await Task.Delay(3000);
         var isAuth = false;
+
         CurrentView = isAuth ? new HomeView() : new AuthView();
     }
     
