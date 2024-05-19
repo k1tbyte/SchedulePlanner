@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchedulePlanner.Backend.Data;
-using SchedulePlanner.Backend.Repositories;
+using SchedulePlanner.Backend.Repositories.Abstraction;
 using SchedulePlanner.Backend.Requests;
 using SchedulePlanner.Backend.Services;
 using SchedulePlanner.Backend.Tools;
@@ -11,7 +11,7 @@ namespace SchedulePlanner.Backend.Controllers;
 
 [Route(App.RoutePattern)]
 [ApiController]
-public sealed class AuthController(UserRepository userRepository, AppDbContext context) : ControllerBase
+public sealed class AuthController(IUserRepository userRepository, AppDbContext context) : ControllerBase
 {
     private OkObjectResult OkTokenResult((string accessToken, Guid refreshToken) session) =>
         Ok(new { AccessToken = session.accessToken, RefreshToken = session.refreshToken });
@@ -51,7 +51,7 @@ public sealed class AuthController(UserRepository userRepository, AppDbContext c
 
         var userIdParam = long.Parse(HttpContext.User.Claims.First(o => o.Type == JwtService.UserIdClaimName).Value);
         context.Database.ExecuteSqlRaw(sql,userIdParam, refreshToken!);
-        return Ok();;
+        return Ok();
     }
     
     [HttpPost]

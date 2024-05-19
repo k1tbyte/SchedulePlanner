@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using SchedulePlanner.Tools;
+using SchedulePlanner.Tools.Backend;
 using SchedulePlanner.Views;
 
 namespace SchedulePlanner.ViewModels;
@@ -52,10 +53,10 @@ public sealed class AuthViewModel : ReactiveObject
             return;
         }
         RegisterError = null;
-        var response = await App.Backend.Request<WebService.Session>(HttpMethod.Post,
-            Endpoints.Register, WebService.ToJson(
-                new { username = RegisterEmail, password = RegisterPassword }
-            ), App.Backend.StoreSession
+        
+        var obj = new { username = RegisterEmail, password = RegisterPassword };
+        var response = await App.Backend.Request<Session>(new(Endpoints.Register,HttpMethod.Post) 
+                { Content = WebService.ToJson(obj), OnSuccess = App.Backend.StoreSession}
         );
         
         WebService.HandleResult(response,

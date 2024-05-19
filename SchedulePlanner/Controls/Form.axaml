@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SchedulePlanner.Controls.Form"
+             Margin="0 10 0 0">
+    <StackPanel>
+        <StackPanel.Styles>
+            <Styles>
+                <Style Selector="StackPanel > TextBlock">
+                    <Setter Property="Margin" Value="3 12 0 3"/>
+                </Style>
+            </Styles>
+        </StackPanel.Styles>
+        <StackPanel x:Name="FormElements"> </StackPanel>
+        <TextBlock x:Name="ErrorBlock"  Margin="0 10 0 10"
+                   Foreground="PaleVioletRed" TextWrapping="Wrap"
+                   FontWeight="Medium"/>
+        <Button HorizontalAlignment="Center" IsDefault="True" Click="Submit" MinWidth="140">Submit</Button>
+    </StackPanel>
+</UserControl>

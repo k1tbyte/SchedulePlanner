@@ -8,6 +8,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, IConfig
 {
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Session> Sessions { get; set; } = null!;
+    public DbSet<Department> Departments { get; set; } = null!;
+    public DbSet<Speciality> Specialities { get; set; } = null!;
      
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -3,7 +3,7 @@
              x:Class="SchedulePlanner.App"
              xmlns:local="using:SchedulePlanner"
              xmlns:converters="clr-namespace:SchedulePlanner.Converters"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Dark">
 
     <Application.Styles>
         <SimpleTheme />

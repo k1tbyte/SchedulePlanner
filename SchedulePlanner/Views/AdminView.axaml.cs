@@ -5,11 +5,11 @@ using SchedulePlanner.ViewModels;
 
 namespace SchedulePlanner.Views;
 
-public partial class HomeView : UserControl
+public partial class AdminView : UserControl
 {
-    public HomeView()
+    public AdminView()
     {
         InitializeComponent();
-        DataContext = new HomeViewModel();
+        this.DataContext = new AdminViewModel();
     }
 }

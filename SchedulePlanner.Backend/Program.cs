@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using SchedulePlanner.Backend.Data;
+using SchedulePlanner.Backend.Data.Models;
 using SchedulePlanner.Backend.Repositories;
+using SchedulePlanner.Backend.Repositories.Abstraction;
 using SchedulePlanner.Backend.Services;
 
 namespace SchedulePlanner.Backend;
@@ -28,7 +30,9 @@ internal static class App
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddDbContext<AppDbContext>();
         builder.Services.AddScoped<JwtService>();
-        builder.Services.AddScoped<UserRepository>();
+        builder.Services.AddScoped<IUserRepository,UserRepository>();
+        builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+        builder.Services.AddScoped<ICrudRepository<Speciality>,SpecialityRepository>();
 
         ConfigureAuthentication(builder);
         Instance = builder.Build();

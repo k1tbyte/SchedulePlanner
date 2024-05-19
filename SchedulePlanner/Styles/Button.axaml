@@ -30,6 +30,10 @@
         <Setter Property="Foreground" Value="{DynamicResource Popover-Foreground}"/>
     </Style>
     
+    <Style Selector="Button.Outlined.IconicLoader:disabled > PathIcon">
+        <Setter Property="Foreground" Value="Transparent"/>
+    </Style>
+    
     <Style Selector="Button.Outlined:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource Secondary}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>

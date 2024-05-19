@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SchedulePlanner.Tools;
+using SchedulePlanner.Tools.Backend;
 using SchedulePlanner.ViewModels;
 using SchedulePlanner.Views;
 

@@ -12,24 +12,25 @@ namespace SchedulePlanner.ViewModels;
 public class MainWindowViewModel : ReactiveObject
 {
     [Reactive]
-    public object? CurrentView { get; private set; }
+    public Control? CurrentView { get; private set; }
 
     private async Task Prepare()
     {
+        if (Design.IsDesignMode)
+        {
+            CurrentView = new HomeView();
+            return;
+        }
         var isAuth = await App.Backend.Authorize();
         CurrentView = isAuth.Success ? new HomeView() : new AuthView();
     }
 
-    public void SetView(object view) => 
+    public void SetView(Control view) => 
         Dispatcher.UIThread.Invoke(() => CurrentView = view);
 
     public MainWindowViewModel()
     {
         //Preparing for further actions as well as checking authentication
-        if (Design.IsDesignMode)
-        {
-            return;
-        }
 
         App.Backend.OnUnauthorized += () =>
         {

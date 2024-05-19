@@ -2,41 +2,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SchedulePlanner.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SchedulePlanner.Views.HomeView">
+             x:Class="SchedulePlanner.Views.HomeView"
+             x:DataType="viewModels:HomeViewModel">
+    <Design.DataContext>
+        <viewModels:HomeViewModel/>
+    </Design.DataContext>
     <Grid ColumnDefinitions="60,*" RowDefinitions="55,*">
         <TextBlock Grid.Column="1"
                    Padding="10 25 0 0"
                    FontWeight="Bold" LetterSpacing="1"
-                   FontSize="13"
-        >
-            Adding new schedule
-        </TextBlock>
-        <StackPanel  Grid.RowSpan="2"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Center">
-            <RadioButton IsChecked="True" Margin="0 0 0 15" >
-                <PathIcon Data="{StaticResource HomeRegular}"
-                          VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </RadioButton>
-            <RadioButton  >
-                <PathIcon Data="{StaticResource GroupListRegular}"></PathIcon>
-            </RadioButton>
-        </StackPanel>
-        <Border Grid.Column="1" Grid.Row="1"
+                   FontSize="13" Text="{Binding Title}"
+        />
+        <Grid  Grid.RowSpan="2" >
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <RadioButton
+                    Command="{Binding DashboardCommand}"
+                    IsChecked="True" Margin="0 0 0 15" >
+                    <PathIcon Data="{StaticResource HomeRegular}"
+                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </RadioButton>
+                <RadioButton 
+                    Command="{Binding ClassesCommand}"
+                    IsVisible="{Binding !IsAdmin}" >
+                    <PathIcon Data="{StaticResource GroupListRegular}"/>
+                </RadioButton>
+                <RadioButton Command="{Binding AdminPanelCommand}"
+                    IsVisible="{Binding IsAdmin}" >
+                    <PathIcon Data="{StaticResource GraduationRegular}"/>
+                </RadioButton>
+            </StackPanel>
+            
+            <Button Margin="0 0 0 15" 
+                    Classes="Outlined IconicLoader" ToolTip.Tip="Sign out"
+                    Command="{Binding SignOutCommand}"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <PathIcon Data="{StaticResource SignOutRegular}">
+                    <PathIcon.RenderTransform>
+                        <ScaleTransform ScaleX="-1"/>
+                    </PathIcon.RenderTransform>
+                </PathIcon>
+            </Button>
+        </Grid>
+        <ContentControl Grid.Column="1" Grid.Row="1"
                 Padding="15 15"
                 CornerRadius="7 0 0 0"
                 BorderThickness="1 1 0 0"
-                BorderBrush="{DynamicResource Border}">
-            <StackPanel>
-                <TextBox Watermark="Username" VerticalAlignment="Top" Margin="0 0 0 10" />
-                <TextBox  Classes="revealPasswordButton"  PasswordChar="•" Margin="0 0 0 10"
-                          RevealPassword="False" Watermark="Password" VerticalAlignment="Top">
-                        
-                </TextBox>
-                <Button Classes="Outlined">Sign in with Email</Button>
-            </StackPanel>
-        </Border>
-
+                BorderBrush="{DynamicResource Border}"
+                Content="{Binding CurrentPage, Mode=OneWay}"/>
     </Grid>
 </UserControl>

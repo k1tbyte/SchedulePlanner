@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using SchedulePlanner.Backend.Data;
 using SchedulePlanner.Backend.Data.Models;
+using SchedulePlanner.Backend.Repositories.Abstraction;
 using SchedulePlanner.Backend.Services;
 using SchedulePlanner.Backend.Tools;
 
 namespace SchedulePlanner.Backend.Repositories;
 
-public class UserRepository(AppDbContext context, JwtService jwtService)
+public class UserRepository(AppDbContext context, JwtService jwtService) : IUserRepository
 {
     private const int MaxSessions = 5;
     public DbSet<User> Users => context.Users;
