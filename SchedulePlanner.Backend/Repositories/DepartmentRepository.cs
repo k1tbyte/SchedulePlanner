@@ -7,5 +7,5 @@ namespace SchedulePlanner.Backend.Repositories;
 public class DepartmentRepository(AppDbContext context) :
     BaseCrudRepository<Department>(context, context.Departments), IDepartmentRepository
 {
-    public List<Department> All() => context.Departments.ToList();
+    public Department[] All() => context.Departments.ToArray();
 }

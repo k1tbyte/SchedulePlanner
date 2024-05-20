@@ -11,6 +11,18 @@ internal static class Endpoints
     public const string TerminateSession = "auth/session/terminate";
     
     // Departments
-    public const string AllDeps = "department/all";
-    public const string AddDept = "department/add";
+    public const string Department = "department";
+    public const string DepartmentAll = $"{Department}/all";
+    public const string DepartmentAdd = $"{Department}/add";
+    
+    // Specialities
+    public const string Speciality = "speciality";
+    public const string SpecialityAll = $"{Speciality}/all?departmentId=";
+    public const string SpecialityAdd = $"{Speciality}/add";
+    
+    // Groups
+    public const string Group = "group";
+    public const string GroupAll = $"{Group}/all?specialityId=";
+    public const string GroupAdd = $"{Group}/add";
+
 }

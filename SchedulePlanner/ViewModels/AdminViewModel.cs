@@ -1,10 +1,14 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Reactive;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using SchedulePlanner.Controls;
@@ -14,42 +18,193 @@ using SchedulePlanner.Tools.Backend;
 
 namespace SchedulePlanner.ViewModels;
 
+public enum EEntitySection
+{
+    None,
+    Department,
+    Speciality,
+    Group
+}
+
 public class AdminViewModel : ReactiveObject
 {
-    public ReactiveCommand<Unit,Unit> AddEntityCommand { get; }
+    public ICommand AddEntityCommand { get; }
+    public ICommand RemoveCommand { get; }
+    public ICommand EditCommand { get; }
+    public ICommand EntitySelectCommand { get; }
+    public ICommand BreadcrumbCommand { get; }
     
     [Reactive]
-    public ObservableCollection<Department> Departments { get; private set; }
+    public ObservableCollection<INamedEntity>? CurrentCollection { get; private set; }
+    [Reactive] public ObservableCollection<string> Breadcrumb { get; private set; } = new();
+    
+    private readonly Dictionary<EEntitySection,(ObservableCollection<INamedEntity> collection, INamedEntity? owner)> _cache = new();
 
-    private async Task FetchDepartments()
+    private string _entityName;
+
+    private INamedEntity? _selectedDept;
+    private INamedEntity? _selectedSpeciality;
+
+    public byte sectionId;
+    
+
+    private async Task<(ObservableCollection<INamedEntity> collection, INamedEntity? owner)> GetCached<T>(
+        string endpoint ,EEntitySection section, INamedEntity? entity = null
+    ) where T : INamedEntity
     {
-        var result = await App.Backend.AuthorizedRequest<List<Department>>(
-            new(Endpoints.AllDeps, HttpMethod.Get)
-                { OnSuccess = o => Departments = new(o)});
+        
+        if (_cache.TryGetValue(section,out var cached) && (entity == cached.owner || entity == null))
+        {
+            return cached;
+        }
+
+        var collection = new ObservableCollection<INamedEntity>(
+            await FetchEntities<T>(endpoint) as INamedEntity[] ?? throw new Exception());
+        _cache[section] = (collection, entity);
+        return _cache[section];
+
     }
 
-    private void OnEntityAdding()
+    // If entity is passed then we open a new tab - if null we go back
+    private async Task SetSection(EEntitySection section, INamedEntity? entity)
     {
-        ModalWindow.Open(new Form([
-                    ("Name",new TextBox{ Watermark = "New department" }),
-                ],
+        Breadcrumb.Clear();
+        switch (section)
+        {
+            case EEntitySection.None:
+                Breadcrumb.Add("Departments");
+                CurrentCollection = (await GetCached<Department>(Endpoints.DepartmentAll, section)).collection;
+                _entityName = Endpoints.Department;
+                break;
+            
+            case EEntitySection.Department: 
+                var items= await GetCached<Speciality>(
+                    Endpoints.SpecialityAll + entity?.Id, section, entity);
+                _selectedDept = items.owner;
+                Breadcrumb.AddRange(["Department: " + _selectedDept!.Name, "Specialities"]);
+                CurrentCollection = items.collection;
+                _entityName = Endpoints.Speciality;
+                break;
+            
+            case EEntitySection.Speciality:
+                var groups= await GetCached<Group>(
+                    Endpoints.GroupAll + entity?.Id, section, entity);
+                Breadcrumb.AddRange([
+                    "Department: " + _selectedDept!.Name, "Speciality: " + groups.owner!.Name, "Groups"
+                ]);
+                _selectedSpeciality = groups.owner;
+                CurrentCollection = groups.collection;
+                _entityName = Endpoints.Group;
+                break;
+            case EEntitySection.Group:
+                break;
+        }
+
+        sectionId = (byte)section;
+    }
+
+    private async Task<T[]?> FetchEntities<T>(string url)
+    {
+        T[]? collection = null;
+        await App.Backend.AuthorizedRequest<T[]>(
+            new(url, HttpMethod.Get) { OnSuccess = o => collection = o });
+        return collection;
+
+    }
+
+    private void AddEntity<T>(string title, (string, Control)[] fields, Func<object?[],INamedEntity?> callback) where T : INamedEntity
+    {
+        ModalWindow.Open(new Form(fields,
                 async (reject, formData) =>
                 {
-                    var data = new Department { Name = formData[0]!.ToString() };
-                    await App.Backend.AuthorizedRequest<Unit>(new(Endpoints.AddDept, HttpMethod.Post)
+                    INamedEntity? result;
+                    try
                     {
-                        Content = WebService.ToJson(data),
-                        OnSuccess = _ => Dispatcher.UIThread.Invoke(() => Departments.Add(data)),
+                        result = callback(formData);
+                    }
+                    catch
+                    {
+                        reject("Enter valid data");
+                        return;
+                    }
+
+                    await App.Backend.AuthorizedRequest<T>(new($"{_entityName}/add", HttpMethod.Post)
+                    {
+                        Content = WebService.ToJson(result!),
+                        OnSuccess = entity => Dispatcher.UIThread.Invoke(() => CurrentCollection!.Add(entity!)),
                         OnFailed = () => reject("An error has occurred")
                     });
-                }),
-            "Adding a department"
+                }), title
         );
+    }
+    
+    private void OnEntityAdding()
+    {
+        switch ((EEntitySection)sectionId)
+        {
+            case EEntitySection.None:
+                AddEntity<Department>("Adding a department",
+                    [("Name", new TextBox { Watermark = "New department" })],
+                    o => new Department { Name = o[0]!.ToString()! });
+                break;
+            case EEntitySection.Department:
+                AddEntity<Speciality>("Adding a speciality",
+                    [("Name", new TextBox { Watermark = "New speciality" })],
+                    o => new Speciality
+                    {
+                        Name = o[0]!.ToString()!, DepartmentId  = _selectedDept!.Id
+                    });
+                break;
+            case EEntitySection.Speciality:
+                AddEntity<Group>("Adding a group", [
+                        ("Name", new TextBox { Watermark = "New group" }),
+                        ("Year (course)", new TextBox { Watermark = "1" })
+                    ],
+                    o => new Group
+                    {
+                        Name = o[0]!.ToString()!, Year  = Convert.ToInt32(o[1]!),
+                        SpecialityId = _selectedSpeciality!.Id
+                    });
+                break;
+        }
+    }
+
+    private async Task OnEntityRemoving(INamedEntity entity)
+    {
+        await App.Backend.AuthorizedRequest<Unit>(new($"{_entityName}/delete?id={entity.Id}", HttpMethod.Delete)
+        {
+            OnSuccess = _ => Dispatcher.UIThread.Invoke(() => CurrentCollection!.Remove(entity)),
+        });
+    }
+    
+    private void OnEntityEditing(INamedEntity entity)
+    {
+       
+    }
+    
+    private void OnEntitySelection(INamedEntity entity)
+    {
+        SetSection((EEntitySection)(sectionId + 1), entity);
+    }
+
+    private void BreadcrumbChanged(string key)
+    {
+        var index = Breadcrumb.IndexOf(key);
+        if (index == sectionId)
+        {
+            return;
+        }
+
+        SetSection((EEntitySection)index,null);
     }
     
     public AdminViewModel()
     {
         AddEntityCommand = ReactiveCommand.Create(OnEntityAdding);
-        _ = FetchDepartments();
+        EditCommand = ReactiveCommand.Create<INamedEntity>(OnEntityEditing);
+        RemoveCommand = ReactiveCommand.CreateFromTask<INamedEntity>(OnEntityRemoving);
+        EntitySelectCommand = ReactiveCommand.Create<INamedEntity>(OnEntitySelection);
+        BreadcrumbCommand = ReactiveCommand.Create<string>(BreadcrumbChanged);
+        _ = SetSection(EEntitySection.None,null);
     }
 }

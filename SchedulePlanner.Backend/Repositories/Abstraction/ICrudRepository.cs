@@ -2,7 +2,7 @@ namespace SchedulePlanner.Backend.Repositories.Abstraction;
 
 public interface ICrudRepository<T>
 {
-    public void Add(T entity, bool save);
+    public T Add(T entity);
 
     public T? Get(object id);
 

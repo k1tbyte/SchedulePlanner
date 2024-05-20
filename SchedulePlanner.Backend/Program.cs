@@ -33,6 +33,7 @@ internal static class App
         builder.Services.AddScoped<IUserRepository,UserRepository>();
         builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
         builder.Services.AddScoped<ICrudRepository<Speciality>,SpecialityRepository>();
+        builder.Services.AddScoped<ICrudRepository<Group>,GroupRepository>();
 
         ConfigureAuthentication(builder);
         Instance = builder.Build();

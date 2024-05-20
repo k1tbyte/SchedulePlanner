@@ -12,16 +12,33 @@
     </Design.DataContext>
     <StackPanel>
         <DockPanel VerticalAlignment="Top">
-            <TextBlock VerticalAlignment="Center" FontSize="20" FontWeight="Bold" LetterSpacing="1" >Departments</TextBlock>
-            <Button HorizontalAlignment="Right" 
+            <Button HorizontalAlignment="Right" DockPanel.Dock="Right"
                     Command="{Binding AddEntityCommand}"
                     Classes="Outlined" Margin="50 0 0 0" Padding="6">
                 <PathIcon Data="{StaticResource AddRegular}" Width="18" Height="18"/>
             </Button>
+            <ItemsRepeater ItemsSource="{Binding Breadcrumb, Mode=OneWay}"
+                           HorizontalAlignment="Left" >
+                <ItemsRepeater.Layout>
+                    <WrapLayout Orientation="Horizontal" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="5" Background="Transparent"
+                                BorderThickness="1" BorderBrush="{DynamicResource Border}"
+                                 Cursor="Hand" PointerPressed="InputElement_OnPointerPressed"
+                                Margin="5 0"
+                                Padding="10 5 10 5">
+                            <TextBlock VerticalAlignment="Center" FontSize="12"
+                                       HorizontalAlignment="Center" Text="{Binding}"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
         </DockPanel>
         <Border Margin="0 10 0 10" BorderThickness="0 0 0 1" 
                 BorderBrush="{DynamicResource Border}"/>
-        <ItemsRepeater ItemsSource="{Binding Departments}">
+        <ItemsRepeater ItemsSource="{Binding CurrentCollection}">
             <ItemsRepeater.Layout>
                 <UniformGridLayout ItemsStretch="Fill"  />
             </ItemsRepeater.Layout>
@@ -31,18 +48,23 @@
                             BorderThickness="1" BorderBrush="{DynamicResource Border}"
                             MinHeight="50" MinWidth="300"
                             Margin="5" Cursor="Hand"
+                            PointerPressed="EntityCardPressed"
                             Padding="10 5 10 5">
                         <Grid>
                             <TextBlock Text="{Binding Name,Mode=OneWay}" VerticalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button Theme="{StaticResource Transparent}" Width="35" Height="35"
                                         CornerRadius="3" BorderThickness="1" Padding="3" Margin="0 0 10 0"
-                                        BorderBrush="{DynamicResource Border}">
+                                        BorderBrush="{DynamicResource Border}"
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding $parent[ItemsRepeater].((viewModels:AdminViewModel)DataContext).EditCommand}">
                                     <PathIcon Data="{StaticResource EditRegular}"/>
                                 </Button>
                                 <Button Theme="{StaticResource Transparent}" Width="35" Height="35"
                                         CornerRadius="3" BorderThickness="1" Padding="3"
-                                        BorderBrush="{DynamicResource Border}">
+                                        BorderBrush="{DynamicResource Border}"
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding $parent[ItemsRepeater].((viewModels:AdminViewModel)DataContext).RemoveCommand}">
                                     <PathIcon Foreground="Red"
                                               Data="{StaticResource DeleteRegular}"/>
                                 </Button>

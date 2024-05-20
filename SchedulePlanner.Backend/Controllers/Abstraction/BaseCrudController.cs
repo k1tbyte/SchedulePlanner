@@ -8,9 +8,9 @@ namespace SchedulePlanner.Backend.Controllers.Abstraction;
 public abstract class BaseCrudController<T>(ICrudRepository<T> repository)
 {
     [HttpPost]
-    public virtual void Add([FromBody] T entity)
+    public virtual T Add([FromBody] T entity)
     {
-        repository.Add(entity,true);
+        return repository.Add(entity);
     }
 
     [HttpGet]

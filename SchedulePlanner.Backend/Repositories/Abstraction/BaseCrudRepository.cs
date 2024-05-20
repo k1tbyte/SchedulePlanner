@@ -4,13 +4,11 @@ namespace SchedulePlanner.Backend.Repositories.Abstraction;
 
 public class BaseCrudRepository<T>(DbContext context, DbSet<T> set) : ICrudRepository<T> where T : class
 {
-    public void Add(T entity, bool save = true)
+    public T Add(T entity)
     {
-        set.Add(entity);
-        if (save)
-        {
-            context.SaveChanges();
-        }
+        var result = set.Add(entity);
+        context.SaveChanges();
+        return result.Entity;
     }
 
     public T? Get(object id) => set.Find(id);
