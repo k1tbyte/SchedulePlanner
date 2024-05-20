@@ -112,7 +112,9 @@ public class AdminViewModel : ReactiveObject
 
     }
 
-    private void AddEntity<T>(string title, (string, Control)[] fields, Func<object?[],INamedEntity?> callback) where T : INamedEntity
+    private void AddOrUpdate<T>(
+        string title, (string, Control)[] fields, Func<object?[],INamedEntity?> callback, INamedEntity? original = null) 
+        where T : INamedEntity
     {
         ModalWindow.Open(new Form(fields,
                 async (reject, formData) =>
@@ -128,10 +130,20 @@ public class AdminViewModel : ReactiveObject
                         return;
                     }
 
-                    await App.Backend.AuthorizedRequest<T>(new($"{_entityName}/add", HttpMethod.Post)
+                    var method = original != null ? HttpMethod.Patch : HttpMethod.Post;
+                    var url = original != null ? "update" : "add";
+                    await App.Backend.AuthorizedRequest<T>(new($"{_entityName}/{url}", method)
                     {
                         Content = WebService.ToJson(result!),
-                        OnSuccess = entity => Dispatcher.UIThread.Invoke(() => CurrentCollection!.Add(entity!)),
+                        OnSuccess = entity => Dispatcher.UIThread.Invoke(() =>
+                        {
+                            if (original != null)
+                            {
+                                CurrentCollection!.Replace(original, result);
+                                return;
+                            }
+                            CurrentCollection!.Add(entity!);
+                        }),
                         OnFailed = () => reject("An error has occurred")
                     });
                 }), title
@@ -143,12 +155,12 @@ public class AdminViewModel : ReactiveObject
         switch ((EEntitySection)sectionId)
         {
             case EEntitySection.None:
-                AddEntity<Department>("Adding a department",
+                AddOrUpdate<Department>("Adding a department",
                     [("Name", new TextBox { Watermark = "New department" })],
                     o => new Department { Name = o[0]!.ToString()! });
                 break;
             case EEntitySection.Department:
-                AddEntity<Speciality>("Adding a speciality",
+                AddOrUpdate<Speciality>("Adding a speciality",
                     [("Name", new TextBox { Watermark = "New speciality" })],
                     o => new Speciality
                     {
@@ -156,7 +168,7 @@ public class AdminViewModel : ReactiveObject
                     });
                 break;
             case EEntitySection.Speciality:
-                AddEntity<Group>("Adding a group", [
+                AddOrUpdate<Group>("Adding a group", [
                         ("Name", new TextBox { Watermark = "New group" }),
                         ("Year (course)", new TextBox { Watermark = "1" })
                     ],
@@ -177,9 +189,38 @@ public class AdminViewModel : ReactiveObject
         });
     }
     
+    // Hardcode 
     private void OnEntityEditing(INamedEntity entity)
     {
-       
+        switch ((EEntitySection)sectionId)
+        {
+            case EEntitySection.None:
+                AddOrUpdate<Department>("Editing department",
+                    [("Name", new TextBox { Watermark = "New department", Text = entity.Name })],
+                    o => new Department { Name = o[0]!.ToString()!, Id = entity.Id },entity);
+                break;
+            case EEntitySection.Department:
+                var speciality = entity as Speciality;
+                AddOrUpdate<Speciality>("Editing a speciality",
+                    [("Name", new TextBox { Watermark = "New speciality", Text = entity.Name })],
+                    o => new Speciality
+                    {
+                        Name = o[0]!.ToString()!, DepartmentId  = speciality!.DepartmentId, Id = speciality.Id
+                    },entity);
+                break;
+            case EEntitySection.Speciality:
+                AddOrUpdate<Group>("Editing a group", [
+                        ("Name", new TextBox { Watermark = "New group", Text= entity.Name }),
+                        ("Year (course)", new TextBox { Watermark = "1", Text = (entity as Group)!.Year.ToString() })
+                    ],
+                    o => new Group
+                    {
+                        Name = o[0]!.ToString()!, Year  = Convert.ToInt32(o[1]!),
+                        SpecialityId = (entity as Group)!.SpecialityId,
+                        Id = entity.Id
+                    },entity);
+                break;
+        }
     }
     
     private void OnEntitySelection(INamedEntity entity)

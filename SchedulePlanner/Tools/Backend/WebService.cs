@@ -64,9 +64,15 @@ public sealed class WebService : IDisposable
             req.OnSuccess?.Invoke(default);
             return new WebResult(true);
         }
-            
+
+
+        T result = default;
+        try
+        {
+            result = await response.Content.ReadFromJsonAsync<T>(App.JsonOptions);
+        }
+        catch { }
         
-        var result = await response.Content.ReadFromJsonAsync<T>(App.JsonOptions);
         req.OnSuccess?.Invoke(result!);
 
         return new WebResult(true);
