@@ -13,4 +13,5 @@ public sealed class GroupController (ICrudRepository<Group> repository, AppDbCon
     [HttpGet]
     public Group[] All(int specialityId) => 
         context.Groups.Where(o => o.SpecialityId == specialityId).ToArray();
+    
 }

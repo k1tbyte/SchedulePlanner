@@ -27,18 +27,6 @@
                                                    CornerRadius="{TemplateBinding CornerRadius}"/>
                                  <PathIcon Data="{StaticResource Spinner}"
                                            IsVisible="False">
-                                     <PathIcon.Styles>
-                                         <Style>
-                                             <Style.Animations>
-                                                 <Animation Duration="0:0:0.5"
-                                                            IterationCount="Infinite">
-                                                     <KeyFrame Cue="100%">
-                                                         <Setter Property="RotateTransform.Angle" Value="360"/>
-                                                     </KeyFrame>
-                                                 </Animation>
-                                             </Style.Animations>
-                                         </Style>
-                                     </PathIcon.Styles>
                                  </PathIcon>
                              </Panel>
                          </ControlTemplate>
@@ -53,6 +41,14 @@
                      </Style>
                      <Style Selector="^:disabled /template/ PathIcon">
                          <Setter Property="IsVisible" Value="True"/>
+                         <Style.Animations>
+                             <Animation Duration="0:0:0.5"
+                                        IterationCount="Infinite">
+                                 <KeyFrame Cue="100%">
+                                     <Setter Property="RotateTransform.Angle" Value="360"/>
+                                 </KeyFrame>
+                             </Animation>
+                         </Style.Animations>
                      </Style>
     </ControlTheme>
     

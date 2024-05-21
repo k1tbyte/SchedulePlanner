@@ -27,7 +27,8 @@
                      IsVisible="{Binding CurrentView,Converter={StaticResource InvertedToBooleanConverter}}"
                      VerticalAlignment="Center"
                      Height="10" Width="350"
-                     HorizontalAlignment="Center" IsIndeterminate="True" />
+                     HorizontalAlignment="Center"
+                     IsIndeterminate="{Binding RelativeSource={RelativeSource Self}, Path=IsVisible}" />
         <ContentControl Content="{Binding CurrentView, Mode=TwoWay}"/>
         <controls:ModalWindow x:Name="Modal"/>
     </Grid>

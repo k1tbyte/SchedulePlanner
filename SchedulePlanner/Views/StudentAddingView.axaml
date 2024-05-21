@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SchedulePlanner.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SchedulePlanner.Views.StudentAddingView"
+             x:DataType="viewModels:StudentAddingViewModel"
+             MinWidth="600" MinHeight="400">
+    <Panel>
+        <StackPanel VerticalAlignment="Top" Margin="0 0 0 0">
+            <TextBlock Margin="3 0 0 3">Find student by email</TextBlock>
+            <TextBox Watermark="Search students..." Text="{Binding SearchbarText}"/>
+        </StackPanel>
+        <ScrollViewer Margin="0 65 0 0" VerticalScrollBarVisibility="Hidden"
+                      VerticalAlignment="Top">
+                    <ItemsRepeater ItemsSource="{Binding Students}" >
+            <ItemsRepeater.Layout>
+                <UniformGridLayout ItemsStretch="Fill"  />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                    <Border CornerRadius="5"
+                            BorderThickness="1" BorderBrush="{DynamicResource Border}"
+                            Height="40" MinWidth="200" Background="Transparent"
+                            Margin="4" ToolTip.Tip="{Binding}"
+                            Padding="10 5 10 5"
+                            Classes.InGroup="{Binding GroupName,Converter={StaticResource ToBooleanConverter}}"
+                            Classes.Same="{Binding IsSameGroup}">
+                        <Border.Styles>
+                            <Style Selector="Border.InGroup">
+                                <Setter Property="BorderBrush" Value="Yellow"/>
+                                <Setter Property="Tag" Value="{Binding GroupName, StringFormat=This student already in group {0}. Click to add to current}"/>
+                            </Style>
+                            <Style Selector="Border.Same">
+                                <Setter Property="BorderBrush" Value="SpringGreen"/>
+                                <Setter Property="Tag" Value="This student already in this group. Click to remove"/>
+                            </Style>
+                        </Border.Styles>
+                        <Grid>
+                            <TextBlock Text="{Binding }" TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center" Padding="0 0 35 0"/>
+
+                            <Button Theme="{StaticResource Transparent}" Width="30" Height="30"
+                                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                                    Padding="3" ToolTip.Tip="{Binding $parent[Border].Tag}"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding $parent[ItemsRepeater].((viewModels:StudentAddingViewModel)DataContext).ToggleGroupCommand}"
+                            >
+                                <Panel>
+                                    <PathIcon Data="{StaticResource AddRegular}"
+                                              IsVisible="{Binding !IsSameGroup}"/>
+                                    <PathIcon Data="{StaticResource RemoveRegular}"
+                                              IsVisible="{Binding IsSameGroup}"/>
+                                </Panel>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+        </ScrollViewer>
+        <Border Background="rgba(0, 0, 0, 0.5)" CornerRadius="7"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin=" 0 50 0 0"
+                Padding="40 25"
+                IsVisible="{Binding Status,Converter={StaticResource ToBooleanConverter}}"
+                >
+            <TextBlock Foreground="{DynamicResource Foreground}" 
+                       Text="{Binding Status}" FontSize="20" />
+        </Border>
+    </Panel>
+</UserControl>

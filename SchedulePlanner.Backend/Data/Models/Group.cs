@@ -18,4 +18,6 @@ public sealed class Group
     
     [Column("year")]
     public required int Year { get; init; }
+    
+    public ICollection<User> Students { get; init; } = new List<User>();
 }

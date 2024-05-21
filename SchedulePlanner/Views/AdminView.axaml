@@ -36,9 +36,9 @@
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
         </DockPanel>
-        <Border VerticalAlignment="Top" Margin="0 35 0 10" BorderThickness="0 0 0 1" 
+        <Border VerticalAlignment="Top" Margin="0 40 0 10" BorderThickness="0 0 0 1" 
                 BorderBrush="{DynamicResource Border}"/>
-        <ScrollViewer Margin="0 45 0 0" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer Margin="0 50 0 0" VerticalScrollBarVisibility="Hidden">
                     <ItemsRepeater ItemsSource="{Binding CurrentCollection}" >
             <ItemsRepeater.Layout>
                 <UniformGridLayout ItemsStretch="Fill"  />
@@ -54,6 +54,14 @@
                         <Grid>
                             <TextBlock Text="{Binding Name,Mode=OneWay}" VerticalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Theme="{StaticResource Transparent}" Width="35" Height="35"
+                                        CornerRadius="3" BorderThickness="1" Padding="3" Margin="0 0 10 0"
+                                        BorderBrush="{DynamicResource Border}"
+                                        IsVisible="{Binding $parent[ItemsRepeater].((viewModels:AdminViewModel)DataContext).IsUserAddingAvail}"
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding $parent[ItemsRepeater].((viewModels:AdminViewModel)DataContext).AddStudentCommand}">
+                                    <PathIcon Data="{StaticResource PersonRegular}"/>
+                                </Button>
                                 <Button Theme="{StaticResource Transparent}" Width="35" Height="35"
                                         CornerRadius="3" BorderThickness="1" Padding="3" Margin="0 0 10 0"
                                         BorderBrush="{DynamicResource Border}"

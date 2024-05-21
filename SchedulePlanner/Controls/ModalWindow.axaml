@@ -18,7 +18,7 @@
             BorderBrush="{DynamicResource Border}" 
             BorderThickness="0.5"
             Padding="20"
-            Margin="0 40 0 40" x:Name="PopupPresenter" 
+            Margin="30 40 30 40" x:Name="PopupPresenter" 
             MinWidth="300"
             VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="5">
         <Border.Effect>
@@ -27,7 +27,7 @@
                               Opacity="0.3"
                               BlurRadius="3"/>
         </Border.Effect>
-        <Grid>
+        <Panel>
             <Button Theme="{StaticResource Transparent}"  Click="OnCloseClick"
                     VerticalAlignment="Top" HorizontalAlignment="Right" 
                     Margin="0 0 0 0" Width="9.5" Height="9.5">
@@ -42,8 +42,8 @@
                        FontWeight="SemiBold" LetterSpacing="1" 
                        FontSize="18" x:Name="Title"/>
             
-            <ContentPresenter x:Name="Presenter" 
+            <ContentPresenter x:Name="Presenter" VerticalAlignment="Top"
                                Margin="0 30 0 0"/>
-        </Grid>
+        </Panel>
     </Border>
 </Grid>

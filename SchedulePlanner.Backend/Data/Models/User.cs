@@ -15,7 +15,7 @@ public sealed class User
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("user_id")]
-    public long Id { get; set; }
+    public int Id { get; set; }
     
     [Column("username")]
     public required string Username { get; init; }
@@ -29,5 +29,10 @@ public sealed class User
     [Column("access_rights")] 
     public UserAccessRights AccessRights { get; init; }
 
+    [Column("group_id")]
+    public int? GroupId { get; set; }
+
+    public Group? Group { get; set; }
+    
     public ICollection<Session> Sessions { get; init; } = new List<Session>();
 }

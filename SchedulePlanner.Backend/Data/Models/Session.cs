@@ -14,7 +14,7 @@ public sealed class Session
     public required long Expires { get; init; }
         
     [Column("user_id")]
-    public required long UserId { get; init; }
+    public required int UserId { get; init; }
 
     public User User { get; set; } = null!;
 }

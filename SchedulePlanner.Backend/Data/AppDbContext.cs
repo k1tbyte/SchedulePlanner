@@ -20,7 +20,12 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, IConfig
             .HasMany(e => e.Sessions)
             .WithOne(e => e.User)
             .HasForeignKey(e => e.UserId);
-        
+
+        modelBuilder.Entity<Group>()
+            .HasMany(e => e.Students)
+            .WithOne(e => e.Group)
+            .HasForeignKey(e => e.GroupId);
+            
         base.OnModelCreating(modelBuilder);
     }
 

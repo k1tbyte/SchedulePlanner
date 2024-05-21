@@ -21,7 +21,7 @@ public sealed class AuthController(IUserRepository userRepository, AppDbContext 
     {
         var user = await userRepository.Users
             .Include(o => o.Sessions)
-            .FirstOrDefaultAsync(o => o.Username == request.Username);
+            .FirstOrDefaultAsync(o => o.Username.Equals(request.Username, StringComparison.InvariantCultureIgnoreCase));
         
         if (user == null) 
             return NotFound("User with this username not found");
@@ -57,7 +57,7 @@ public sealed class AuthController(IUserRepository userRepository, AppDbContext 
     [HttpPost]
     public async Task<ActionResult> Register([FromBody] AuthRequest request)
     {
-        var user = await userRepository.Register(request.Username, request.Password).ConfigureAwait(false);
+        var user = await userRepository.Register(request.Username.ToLowerInvariant(), request.Password).ConfigureAwait(false);
         if (user == null)
             return Conflict("User with this username already exists");
 

@@ -24,5 +24,9 @@ internal static class Endpoints
     public const string Group = "group";
     public const string GroupAll = $"{Group}/all?specialityId=";
     public const string GroupAdd = $"{Group}/add";
-
+    
+    // Student
+    public const string Student = "student";
+    public const string StudentSearch = $"{Student}/search?";
+    public const string StudentAddGroup = $"{Student}/addtogroup?";
 }
