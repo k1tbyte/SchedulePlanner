@@ -10,7 +10,13 @@ using SchedulePlanner.Views;
 
 namespace SchedulePlanner;
 
-public record AppSettings(string ApiUrl = "http://localhost:5254");
+public record AppSettings(string ApiUrl =
+   #if DEBUG
+    "http://localhost:5254"
+    #else
+    "http://localhost:5000"
+    #endif
+);
 
 public partial class App : Application
 {
