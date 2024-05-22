@@ -78,4 +78,25 @@
             <Setter Property="Opacity" Value="1"/>
         </Style>
     </ControlTheme>
+    
+    <ControlTheme x:Key="Expander" TargetType="ToggleButton">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="{DynamicResource MutedForeground}"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Padding="{TemplateBinding Padding}">
+                    <PathIcon Foreground="{TemplateBinding Foreground}" Width="14"
+                              VerticalAlignment="Center" HorizontalAlignment="Center"
+                              Data="{StaticResource ChevronDown}"   Height="14" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:checked /template/ PathIcon">
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="180"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ControlTheme>
 </ResourceDictionary>

@@ -21,7 +21,7 @@ public sealed class AuthController(IUserRepository userRepository, AppDbContext 
     {
         var user = await userRepository.Users
             .Include(o => o.Sessions)
-            .FirstOrDefaultAsync(o => o.Username.Equals(request.Username, StringComparison.InvariantCultureIgnoreCase));
+            .FirstOrDefaultAsync(o => request.Username.ToLower() == o.Username);
         
         if (user == null) 
             return NotFound("User with this username not found");

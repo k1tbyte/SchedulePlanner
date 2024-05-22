@@ -23,4 +23,10 @@
         <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Avalonia.Themes.Simple">
+        <HintPath>..\..\..\..\..\Cache\NugetPackages\avalonia.themes.simple\11.0.10\lib\net6.0\Avalonia.Themes.Simple.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

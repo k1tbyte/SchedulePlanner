@@ -20,6 +20,7 @@ public sealed class JwtService(IConfiguration config)
 
     public const string AccessRightsClaimName = "accessRights";
     public const string UserIdClaimName = "userId";
+    public const string UserNameClaimName = "username";
     
     private string GenerateAccessToken(List<Claim> claims)
     {
@@ -42,6 +43,7 @@ public sealed class JwtService(IConfiguration config)
     public (string accessToken, Guid refreshToken) CreateToken(User user) =>
         (GenerateAccessToken([
             new Claim(UserIdClaimName, user.Id.ToString()),
+            new Claim(UserNameClaimName, user.Username),
             new Claim(AccessRightsClaimName, ((byte)user.AccessRights).ToString())
         ]), Guid.NewGuid());
 }

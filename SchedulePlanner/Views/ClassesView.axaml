@@ -2,7 +2,138 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SchedulePlanner.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SchedulePlanner.Views.ClassesView">
-    Welcome to Avalonia!
+             x:Class="SchedulePlanner.Views.ClassesView"
+             x:DataType="viewModels:ClassesViewModel"
+             Height="400"
+             MaxWidth="650" Padding="0 5 0 0">
+    <Design.DataContext>
+        <viewModels:ClassesViewModel/>
+    </Design.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Panel>
+            <ItemsRepeater x:DataType="viewModels:ClassesViewModel" ItemsSource="{Binding DaysOfWeek}"
+                           HorizontalAlignment="Center"  >
+                <ItemsRepeater.Layout>
+                    <WrapLayout Orientation="Horizontal" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="5" Background="Transparent"
+                                BorderThickness="1" BorderBrush="{DynamicResource Border}"
+                                Cursor="Hand" PointerPressed="DayOfWeekSelection"
+                                Margin="5 0"
+                                Padding="10 5 10 5">
+                            <TextBlock VerticalAlignment="Center" FontSize="12"
+                                       HorizontalAlignment="Center" Text="{Binding}"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+            
+            <Border  Margin="0 50 0 0" BorderBrush="{DynamicResource Border}"
+                     BorderThickness="1" CornerRadius="5" Width="350" 
+                     VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel>
+                    <TextBlock FontSize="14" Foreground="{DynamicResource Foreground}" Margin="10 10 0 10"
+                               Text="{Binding SelectedDay,Mode=OneWay, StringFormat={}{0} classes}"/>
+                    <ItemsRepeater x:DataType="viewModels:ClassesViewModel" ItemsSource="{Binding CurrentSchedule}"
+                                   HorizontalAlignment="Center">
+                        <ItemsRepeater.Layout>
+                            <StackLayout />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource Border}"
+                                        Padding="7 3" >
+                                    <StackPanel>
+                                        <Grid ColumnDefinitions="90,*,Auto" RowDefinitions="Auto,Auto,Auto">
+                                            <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Foreground="{DynamicResource Ring}" Text="{Binding StartsAt, StringFormat={}{0} -}"/>
+                                                <TextBlock Foreground="{DynamicResource Ring}" Text="{Binding EndAt, StringFormat={} {0}}"/>
+                                            </DockPanel>
+                                            <Grid.Styles>
+                                                <Style Selector="Grid > Border">
+                                                    <Setter Property="CornerRadius" Value="5"/>
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource Border}"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="Margin" Value="0 5"/>
+                                                    <Setter Property="Padding" Value="10 5 10 5"/>
+                                                    <Setter Property="Grid.Column" Value="1"/>
+                                                </Style>
+                                            </Grid.Styles>
+
+                                            <Border ToolTip.Tip="{Binding SubjectName}">
+                                                <TextBlock VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis"
+                                                           HorizontalAlignment="Center" Text="{Binding SubjectName}"/>
+                                            </Border>
+                                            <ToggleButton x:Name="Toggler" Theme="{StaticResource Expander}"
+                                                          Margin="10 0 10 0" Grid.Column="2"
+                                                          HorizontalAlignment="Right" />
+                                           
+                                            <TextBlock Grid.Row="1" HorizontalAlignment="Center"
+                                                       IsVisible="{Binding ElementName=Toggler,Path=IsChecked}"
+                                                       Foreground="{DynamicResource Ring}" Text="{Binding Duration, StringFormat=({0} m.)}"/>
+                                            <Border Grid.Row="1" IsVisible="{Binding ElementName=Toggler,Path=IsChecked}"
+                                                    ToolTip.Tip="{Binding TeacherName, StringFormat=Teacher name: {0}}">
+                                                <TextBlock VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis"
+                                                           HorizontalAlignment="Center" Text="{Binding TeacherName}"/>
+                                            </Border>
+                                            <Border Grid.Row="2" IsVisible="{Binding ElementName=Toggler,Path=IsChecked}"
+                                                    ToolTip.Tip="{Binding ClassroomName, StringFormat=Classroom: {0}}">
+                                                <TextBlock VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis"
+                                                           HorizontalAlignment="Center" Text="{Binding ClassroomName}"/>
+                                            </Border>
+                                            
+                                            <Button Grid.Row="2" Theme="{StaticResource Transparent}" 
+                                                    Width="20" Height="20" Padding="3" 
+                                                    Classes.Partial="{Binding $parent[ItemsRepeater].((viewModels:ClassesViewModel)DataContext).PartialView}"
+                                                    CommandParameter="{Binding}"
+                                                    Command="{Binding $parent[ItemsRepeater].((viewModels:ClassesViewModel)DataContext).RemoveClassCommand}">
+                                                <PathIcon Foreground="Red"
+                                                          Data="{StaticResource DeleteRegular}"/>
+                                                <Button.Styles>
+                                                    <Style Selector="Button">
+                                                        <Setter Property="IsVisible" Value="{Binding ElementName=Toggler,Path=IsChecked}"/>
+                                                    </Style>
+                                                    <Style Selector="Button.Partial">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </Style>
+                                                </Button.Styles>
+                                            </Button>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+            </Border>
+            
+            <StackPanel Margin="0 50 0 0" VerticalAlignment="Top" HorizontalAlignment="Right"
+                        IsVisible="{Binding !PartialView}">
+                <TextBlock Margin="3 0 0 10" FontSize="14">Add new class</TextBlock>
+                <TextBlock Margin="3 0 0 3">Subject name *</TextBlock>
+                <TextBox Watermark="Machine learning" Text="{Binding SubjectName}"
+                         Margin="0 3 0 10" />
+                <TextBlock>Teacher name *</TextBlock>
+                <TextBox Watermark="John D.R" Text="{Binding TeacherName}"
+                         Margin="0 3 0 10" />
+                <TextBlock>Classroom *</TextBlock>
+                <TextBox Watermark="2nd floor, room 263" Text="{Binding ClassroomName}"
+                         Margin="0 3 0 10" />
+                <TextBlock>Start at *</TextBlock>
+                <TimePicker Margin="0 3 0 10" SelectedTime="{Binding StartsAt}"/>
+                <TextBlock>Duration (minutes) *</TextBlock>
+                <TextBox Watermark="90" Text="{Binding Duration}"
+                         Margin="0 3 0 10" />
+              
+                <TextBlock Foreground="PaleVioletRed" Text="{Binding ErrorMsg}"
+                           FontSize="12" Margin="0 3 0 3"/>
+                <Button Margin="0 10 0 0" Command="{Binding AddClassCommand}">Add</Button>
+            </StackPanel>
+        </Panel>
+    </ScrollViewer>
 </UserControl>

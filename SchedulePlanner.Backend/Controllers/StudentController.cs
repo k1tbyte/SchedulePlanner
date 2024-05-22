@@ -7,6 +7,9 @@ using SchedulePlanner.Backend.Dto;
 namespace SchedulePlanner.Backend.Controllers;
 
 [Route(App.RoutePattern)]
+#if !DEBUG
+    [RequireAccessRights(UserAccessRights.Admin)]
+#endif
 public sealed class StudentController(AppDbContext context)
 {
     [HttpGet]

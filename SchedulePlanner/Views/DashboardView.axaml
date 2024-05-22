@@ -4,5 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SchedulePlanner.Views.DashboardView">
-    Welcome to Avalonia!
+    <TextBlock x:Name="Greetings" VerticalAlignment="Center"
+               Padding="40 0 0 0" Margin="0 0 0 40" Foreground="{DynamicResource MutedForeground}"
+               FontSize="30" FontWeight="Bold"/>
 </UserControl>

@@ -13,7 +13,7 @@
         Foreground="{DynamicResource Foreground}"
         FontWeight="Medium"
         MinHeight="550"
-        MinWidth="650"
+        MinWidth="750"
         ExtendClientAreaToDecorationsHint="True">
 
     <Design.DataContext>
@@ -32,7 +32,4 @@
         <ContentControl Content="{Binding CurrentView, Mode=TwoWay}"/>
         <controls:ModalWindow x:Name="Modal"/>
     </Grid>
-  
-    
-    
 </Window>

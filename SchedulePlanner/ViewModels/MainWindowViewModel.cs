@@ -13,6 +13,7 @@ public class MainWindowViewModel : ReactiveObject
 {
     [Reactive]
     public Control? CurrentView { get; private set; }
+    public bool IsAdmin { get; set; }
 
     private async Task Prepare()
     {

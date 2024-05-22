@@ -4,7 +4,7 @@ namespace SchedulePlanner.Tools.Backend;
 
 internal static class Endpoints
 {
-    public static readonly Uri Base = new("http://localhost:5254/api/v1/");
+    public static readonly Uri Base = new($"{App.Settings.ApiUrl.TrimEnd('/')}/api/v1/");
     public const string Login = "auth/login";
     public const string Register = "auth/register";
     public const string RefreshSession = "auth/session/refresh";
@@ -29,4 +29,9 @@ internal static class Endpoints
     public const string Student = "student";
     public const string StudentSearch = $"{Student}/search?";
     public const string StudentAddGroup = $"{Student}/addtogroup?";
+    
+    // Class
+    public const string Class = "class";
+    public const string ClassAdd = $"{Class}/add";
+    public const string ClassGetByDay = $"{Class}/getbyday?";
 }

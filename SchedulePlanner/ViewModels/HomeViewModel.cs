@@ -24,7 +24,7 @@ public class HomeViewModel : ReactiveObject
     public ReactiveCommand<Unit,Unit> DashboardCommand { get; }
 
     private readonly (Lazy<AdminView>,string) _adminPage = (new(), "Admin panel");
-    private readonly (Lazy<ClassesView>,string) _classesPage = (new(), "List of classes");
+    private readonly (Lazy<StudentView>,string) _classesPage = (new(), "List of classes");
     private readonly (DashboardView,string) _dashboardPage  = (new(), "Dashboard");
 
     public void SetPage(Control page, string title)
@@ -39,6 +39,8 @@ public class HomeViewModel : ReactiveObject
         {
             IsAdmin = true;
         }
+
+        App.MainVm.IsAdmin = IsAdmin;
         
         SetPage(_dashboardPage.Item1, _dashboardPage.Item2);
         

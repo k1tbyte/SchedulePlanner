@@ -11,6 +11,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options, IConfig
     public DbSet<Department> Departments { get; set; } = null!;
     public DbSet<Speciality> Specialities { get; set; } = null!;
     public DbSet<Group> Groups { get; set; } = null!;
+    public DbSet<UniversityClass> Classes { get; set; } = null!;
      
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

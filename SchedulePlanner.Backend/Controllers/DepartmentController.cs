@@ -8,7 +8,9 @@ using SchedulePlanner.Backend.Repositories.Abstraction;
 namespace SchedulePlanner.Backend.Controllers;
 
 [Route(App.RoutePattern)]
-//[RequireAccessRights(UserAccessRights.Admin)]
+#if !DEBUG
+    [RequireAccessRights(UserAccessRights.Admin)]
+#endif
 public sealed class DepartmentController(IDepartmentRepository repository) 
     : BaseCrudController<Department>(repository)
 {

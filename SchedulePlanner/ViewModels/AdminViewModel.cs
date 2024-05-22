@@ -179,6 +179,12 @@ public class AdminViewModel : ReactiveObject
     // If entity is passed then we open a new tab - if null we go back
     private async Task SetSection(EEntitySection section, INamedEntity? entity)
     {
+        if (section == EEntitySection.Group)
+        {
+            ModalWindow.Open(new ClassesView(entity as Group),$"Classes {entity.Name}");
+            return;
+        }
+        
         Breadcrumb.Clear();
         IsUserAddingAvail = false;
         switch (section)
@@ -208,8 +214,6 @@ public class AdminViewModel : ReactiveObject
                 CurrentCollection = groups.collection;
                 _entityName = Endpoints.Group;
                 IsUserAddingAvail = true;
-                break;
-            case EEntitySection.Group:
                 break;
         }
 

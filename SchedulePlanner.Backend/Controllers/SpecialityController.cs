@@ -4,11 +4,14 @@ using SchedulePlanner.Backend.Data;
 using SchedulePlanner.Backend.Data.Models;
 using SchedulePlanner.Backend.Repositories;
 using SchedulePlanner.Backend.Repositories.Abstraction;
+using SchedulePlanner.Backend.Tools.Attributes;
 
 namespace SchedulePlanner.Backend.Controllers;
 
 [Route(App.RoutePattern)]
-//[RequireAccessRights(UserAccessRights.Admin)]
+#if !DEBUG
+[RequireAccessRights(UserAccessRights.Admin)]
+#endif
 public sealed class SpecialityController(ICrudRepository<Speciality> repository, AppDbContext context)  
     : BaseCrudController<Speciality>(repository)
 {
