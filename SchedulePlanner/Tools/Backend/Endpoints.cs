@@ -33,5 +33,6 @@ internal static class Endpoints
     // Class
     public const string Class = "class";
     public const string ClassAdd = $"{Class}/add";
+    public const string ClassUpdate = $"{Class}/update";
     public const string ClassGetByDay = $"{Class}/getbyday?";
 }

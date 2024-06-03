@@ -6,8 +6,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SchedulePlanner.Views.StudentView"
              x:DataType="viewModels:StudentViewModel" Margin="20 0 0 0">
-    <StackPanel VerticalAlignment="Center">
-        <TextBlock FontSize="16" Text="{Binding Status}" Margin="0 0 0 15"/>
-        <ContentControl HorizontalAlignment="Left" Content="{Binding Content}"/>
-    </StackPanel>
+    <ScrollViewer>
+        <StackPanel VerticalAlignment="Top">
+            <TextBlock FontSize="16" Text="{Binding Status}" Margin="0 0 0 15"/>
+            <ContentControl HorizontalAlignment="Left" Content="{Binding Content}"/>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

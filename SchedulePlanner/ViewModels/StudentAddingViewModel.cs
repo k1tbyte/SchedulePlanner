@@ -55,7 +55,7 @@ public sealed class StudentAddingViewModel : ReactiveObject
         while (_typing)
         {
             _typing = false;
-            await Task.Delay(1000);
+            await Task.Delay(500);
         }
 
         if (_searchbarText.Length < 2)

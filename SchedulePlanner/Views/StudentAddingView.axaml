@@ -13,7 +13,7 @@
             <TextBox Watermark="Search students..." Text="{Binding SearchbarText}"/>
         </StackPanel>
         <ScrollViewer Margin="0 65 0 0" VerticalScrollBarVisibility="Hidden"
-                      VerticalAlignment="Top">
+                      VerticalAlignment="Stretch">
                     <ItemsRepeater ItemsSource="{Binding Students}" >
             <ItemsRepeater.Layout>
                 <UniformGridLayout ItemsStretch="Fill"  />
